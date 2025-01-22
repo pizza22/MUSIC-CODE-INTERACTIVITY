@@ -15,7 +15,7 @@ FreqScope.new; // Create oscilloscope for spectral analysis
 { Saw.ar(55,0.1) }.scope
 { Saw.ar(50,0.1) ! 2}.scope // 2 channels
 
-{SinOsc.ar([MouseX.kr(40, 2000),MouseY.kr(5000,200)],0.1, MouseY.kr(0.0,0.6)) ! 2}.scope
+{SinOsc.ar([MouseX.kr(40, 100),MouseY.kr(90,200)],0.1, MouseY.kr(0.0,0.6)) ! 2}.scope
 
 // Impulse response triggered at different frequencies
 { Blip.ar(273,1,0.1) }.scope;
