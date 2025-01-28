@@ -75,8 +75,7 @@ a.scope;
 //the following examples applies one wave to the pitch of another.
 
 //first we will change volume.
-//we do this by changing the multiplier so that
-
+//we do this by MULTIPLYING one waveform by another
 (
 a.source = {
 	var pitch, mod, tempo, intensity;
@@ -88,8 +87,7 @@ a.source = {
 	};
 )
 
-//
-actually the version below
+//actually the version below has an OFFSET that i rather link that is more functional.
 (
 a.source = {
 	var pitch, mod, tempo, intensity;
