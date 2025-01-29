@@ -26,3 +26,4 @@ b.play;
 
 a.clear(3); // clear after 3 seconds
 b.clear(3);
+

@@ -15,10 +15,14 @@ FreqScope.new; // Create oscilloscope for spectral analysis
 { Saw.ar(55,0.1) }.scope
 { Saw.ar(50,0.1) ! 2}.scope // 2 channels
 
+{SinOsc.ar([MouseX.kr(40, 100),MouseY.kr(90,200)],0.1, MouseY.kr(0.0,0.6)) ! 2}.scope
+
 // Impulse response triggered at different frequencies
 { Blip.ar(273,1,0.1) }.scope;
 { Blip.ar(275,1,0.1) }.scope;
 { Blip.ar(271,1,0.1) }.scope;
+
+
 
 { Resonz.ar( WhiteNoise.ar(0.15), Line.kr(10000,200,10)) }.scope; // White noise sent thru a linear resonance envelope : 10kHz to 200Hz in 10 seconds
 { LPF.ar( PinkNoise.ar(0.15), Line.kr(8000,0,10)) }.scope; // Pink noise sent thru a linear LPF envelope : 8kHz to 0Hz in 10 seconds

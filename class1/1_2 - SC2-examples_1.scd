@@ -1,3 +1,4 @@
+
 /*
 Here are a number of wonderful examples of synthesis patches in SuperCollider
 Play them by double clicking the parentheses and pressing shift-return.
@@ -14,9 +15,11 @@ For the rest of the examples, just give them a quick listen.
 (
 // analog bubbles
 {
-	f = LFSaw.kr(0.4, 0, 24, LFSaw.kr([8,7.23], 0, 3, 80)).midicps; // glissando function
+	f = LFSaw.kr(0.1, 0, 24, LFSaw.kr([2,7.23], 0, 3, 80)).midicps; // glissando function
 	CombN.ar(SinOsc.ar(f, 0, 0.04), 0.2, 0.2, 4) // echoing sine wave
-}.play)
+}.play
+
+)
 
 //////////////////////////////////////////////////////////////////////////
 
