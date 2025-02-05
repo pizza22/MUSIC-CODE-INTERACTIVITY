@@ -128,6 +128,10 @@ SynthDef.new(\bubbles,
 x = Synth.new(\bubbles, [\big, 0.4, \bubrange, 20, \modrange, 3]);
 x.free;
 x = Synth.new(\bubbles, [\big, 3.4, \bubrange, 50, \modrange, 6]);
+//don't set two instances to the same variable!
+
+y = Synth.new(\bubbles, [\big, 3.4, \bubrange, 50, \modrange, 6]);
+y.free;
 
 x.free;
 x.set(\bubrange, 20);

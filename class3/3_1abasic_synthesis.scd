@@ -34,6 +34,46 @@ a.source =
 ) //simple AM w offset
 
 
+//let's look at this again!
+(
+a.source = {
+	var pitch, mod, tempo, intensity;
+	tempo = MouseX.kr(0, 60);
+	intensity = MouseY.kr(0, 1);
+ 	mod = SinOsc.ar(tempo, 0, intensity);
+	pitch = SinOsc.ar(440, 0, 1 * mod);
+	pitch;
+	};
+)
+
+//actually the version below has an OFFSET that i rather link that is more functional.
+(
+a.source = {
+	var pitch, mod, tempo, intensity;
+	tempo = MouseX.kr(0, 60);
+	intensity = MouseY.kr(0, 0.5);
+ 	mod = SinOsc.ar(tempo, 0, intensity);
+	pitch = SinOsc.ar(440, 0, 0.5 + mod);
+	pitch;
+	};
+)
+
+//now we will change pitch.
+//the key is that the root of the first oscillators pitch is ADDED with the offset of another
+//this is called FREQUENCY modulation.
+(
+a.source = {
+	var pitch, mod, tempo, intensity;
+	tempo = MouseX.kr(0, 30);
+	intensity = MouseY.kr(0, 400);
+ 	mod = SinOsc.ar(tempo, 0, intensity);
+	pitch = SinOsc.ar(440+mod, 0, 0.6);
+	pitch;
+	};
+)
+
+
+
 (
 a.source =
 { var ampMod, freqMod, kY, kX;
@@ -47,16 +87,6 @@ a.source =
 
 a.source ={};
 
-(
-a.source =
-{ var sig, mod, kY, kX;
-	kY = MouseY.kr(0, 100, 0);
-	kX = MouseX.kr(20, 2000, 0);
-	mod =  SinOsc.ar(kX, 0, 1.0);
-	sig = PinkNoise.ar(1.0);
-	RLPF.ar(sig, 100+mod, 1.0, 1.0);
-};
-)
 
 (
 a.source =
@@ -68,7 +98,45 @@ a.source =
 	sig = PinkNoise.ar();
 	RLPF.ar(sig, mod, 0.1);};
 )
-// input to filter
+// noise input to filter, classic whispery synth sound
+
+(
+a.source =
+{ var sig, mod, kY, kX;
+	kY = MouseY.kr(40, 8000, 0);
+	kX = MouseX.kr(0.1, 20, 0);
+	mod = SinOsc.ar(kX, 0, 1000, kY);
+	sig = Saw.ar(kX, 0.1);
+	RLPF.ar(sig, mod, 0.01);};
+)
+
+// saw wave "ringing" the input to filter, classic watery plingy!
+
+(
+a.source =
+{ var sig, mod, kY, kX, out;
+	kY = MouseY.kr(0, 100, 0);
+	kX = MouseX.kr(20, 2000, 0);
+	mod =  SinOsc.ar(kX, 0, 3000, 1.0);
+	sig = PinkNoise.ar(0.5);
+	out = RLPF.ar(sig, kY+mod, 1.0, 1.0);
+	out = Clip.ar(out, 0.1, 1.0);
+	out;
+};
+)
+//doing some chaotic things to the filter. you can break things and they sound cool!
+
+(
+a.source =
+{ var sig, mod, kY, kX;
+	kY = MouseY.kr(40, 8000, 0);
+	kX = MouseX.kr(0.1, 20, 0);
+	mod = SinOsc.ar(kX, 0, 1000, kY);
+	sig = Saw.ar(kX, kX);
+	RLPF.ar(sig, mod, 0.01);};
+)
+
+
 
 a.source = ();
 
