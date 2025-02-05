@@ -141,6 +141,44 @@ a.source =
 a.source = ();
 
 
+//some advanced stuff
+
+// allocate buffer -----gotta do this if were using buffers!
+b = Buffer.alloc(s,44100,1);
+
+
+// Dust randomly triggers Decay to create an exponential
+// decay envelope for the WhiteNoise input source
+(
+a.source =
+{ var sig, mod, kY, kX, in, out;
+	kY = MouseY.kr(0.1, 2.7, 0);
+	kX = MouseX.kr(0.01, 10.0, 0);
+	in = LFSaw.ar(200,1.0);
+	sig = Decay.ar(Dust.ar(kX,0.5), 0.3, in);
+	out = BufDelayL.ar(b.bufnum, sig, kY, 1, sig); // input is mixed with delay via the add input
+	out;
+};
+)
+
+
+{
+
+
+// another one to play with
+
+(
+a.source =
+{
+    var signal, out, delay, dry, input;
+	input = SinOsc.ar(500, 0, 1.0);
+    signal = Decay.ar(Dust.ar(5,0.5), 0.2, input);
+    delay = CombN.ar(signal, 0.2, 0.2, 3);
+    dry = signal;
+    out = [dry, dry + delay];
+    out;
+}
+)
 
 
 a.source = { SinOsc.ar([350, 351.3], 0, 0.2) };
