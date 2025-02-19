@@ -16,9 +16,9 @@ n[0] = { |amp, widefreq = 4, freq|
 	Dust.ar(widefreq) * amp.dup };
 
 // using Slope to trigger an envelope whenever the value changes
-n[0] = { |widefreq = 30, lo = 200, hi = 200 |
+n[0] = { |widefreq = 30, lo = 200, hi = 200, sin = 130|
 	var gate, f = LFClipNoise.ar(widefreq).range(lo, hi);
 	gate = Slope.kr(A2K.kr(f)).abs;
 	Linen.kr(gate,0, 1, 0.1) *
-	SinOsc.ar(130) * SinOsc.ar(f ) * 0.1.dup;
+	SinOsc.ar(sin) * SinOsc.ar(f ) * 0.1.dup;
 };

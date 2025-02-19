@@ -5,10 +5,34 @@ BrownNoise
 Dust.ar(density: 0)
 
 n = NodeProxy.audio(s, 2).play;
+
+//you remember what this means. we're using the global variable n as a placeholder
+//
+
 n.gui;
+w = n.gui;  // This returns an NdefGui
+w.parent.front;    // Access the window through .parent
+w.parent.alwaysOnTop_(true);  // Set always on top on the parent window
+
+
 n[0] = { | amp | WhiteNoise.ar * amp.dup };
-//remember, n[0] is just putting an infinite input array at the source of n. you could also just say :
+//remember, n[0] is just putting an infinite input channel mixer array at the source of n. you could also just say :
+
 n.source = { | amp | PinkNoise.ar * amp.dup };
+//it's the same thing.
+
+//you could ALSO use the convention Ndef to create a global synth on the server instead of just a local varible
+//like this:
+Ndef(\noise);
+//which you can play
+Ndef(\noise).play;
+//or see
+Ndef(\noise).gui;
+Ndef(\noise).clear;
+//and then fill with information
+Ndef(\noise, { |amp, freq| RLPF.ar(WhiteNoise.ar, freq, amp.dup )});
+//this is exactly like using a synthdef, but simpler, no output needed.
+
 n[0] = { | amp |  BrownNoise.ar * amp.dup };
 n[0] = { |amp, widefreq = 4|  Dust.ar(widefreq) * amp.dup };
 
