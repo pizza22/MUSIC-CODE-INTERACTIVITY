@@ -199,6 +199,7 @@ SynthDef.new(\playbuf_test, {
 
 But of course, this is a poor choice, because it means this SynthDef will only be able to play buffer b0. Much better is to declare a bufnum argument, and specify the bufnum when the Synth is created, like this.
 
+
 (
 SynthDef.new(\playbuf_test, {
 	arg amp=1, out=0, buf; // magic argument means you can point to different wav files
@@ -438,7 +439,7 @@ SynthDef.new(\bufrd_test, {
 }).add;
 )
 
-Synth.new(\bufrd_test, [\buf, ~daxo[1].bufnum]);
+Synth.new(\bufrd_test, [\buf, ~b3.bufnum]);
 
 Maybe we want some flexibility in where Line starts and ends. So, I'll declare some arguments.
 
@@ -474,6 +475,7 @@ SynthDef.new(\bufrd_loop, {
 )
 
 x = Synth.new(\bufrd_loop, [\buf, ~b2.bufnum, \start, 0, \end, ~b2.numFrames-1]);
+x.free
 
 I can change the start and end points, for example, to only read the second half of the file
 
