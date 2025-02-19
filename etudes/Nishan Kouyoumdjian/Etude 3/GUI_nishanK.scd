@@ -2,7 +2,7 @@ s.boot;
 
 //Synth
 SynthDef.new(\modSynth, {
-	arg freq = 440, amp = 0.5, attack = 0.01, release = 1.0;
+	arg freq = 440, amp = 0.5, attack = 0.01, release = 5.0;
 	var env, osc;
 
 	env = EnvGen.kr(Env.perc(attack, release), doneAction: 2);
@@ -39,10 +39,10 @@ attackSlider = Slider(win, Rect(10, 70, 280, 20))
 });
 
 releaseSlider = Slider(win, Rect(10, 100, 280, 20))
-.value_(1.0)
+.value_(5.0)
 .action_({
 	|s|
-	~release = s.value * 5;
+	~release = s.value * 4;
 });
 
 playButton = Button(win, Rect(10, 130, 280, 30))
