@@ -11,7 +11,7 @@ At minimum, read expects two arguments. The first argument is the server onto wh
 
 The 2nd argument is a String that represents the path of your sound file. On my desktop, I've got a folder called sounds, which has a few sound files I'll use for this tutorial. And this is a good time to point out that your sound files should be in either aif or wav format. I'll load the file called car1, which sounds like this, and I happen to know that the path for this file is /Users/eli/Desktop/sounds/car1.aiff. Remember that a string is delineated by an enclosure of double quotes, and also make sure to use exact spelling and capitalization.
 
-~b0 = Buffer.read(s, "/Users/danielfishkin/gitprojects/CreativeMusicalCoding/highlights/dax_MULTIPHONIC.wav");
+~b0 = Buffer.read(s,"/Users/danielfishkin/gitprojects/MUSIC-CODE-INTERACTIVITY/class4/daxos/daxchordCLUSTER.wav" );
 
 Ok, so let's stop here and run this line. In the post window, this is what you can expect to see if you've done everything correctly. If you misspell your path name, SuperCollider will let you know.
 
@@ -28,8 +28,8 @@ It's also important to know how clear and remove buffers, once you've created th
 
 We've cleared b0, but we haven't removed the allocated buffer from the server, so we can fill it with sound once again, using the read method on the allocated buffer, like this
 
-~b0.read("/Users/danielfishkin/gitprojects/CreativeMusicalCoding/highlights/dax_MULTIPHONIC.wav");
-~b0.play;
+~b1.read(s, "/Users/danielfishkin/gitprojects/MUSIC-CODE-INTERACTIVITY/class4/daxos/daxHH_2.wav");
+~b1.play;
 
 If you want to remove a buffer from the server entirely, we use "free", just like with Synths and Groups.
 
@@ -41,7 +41,7 @@ Now this buffer's completely gone, so if we try to play it
 
 Or read a file into it
 
-~b0.read("/Users/danielfishkin/gitprojects/CreativeMusicalCoding/class4/daxos/daxCHORD.wav");
+~b1.read("/Users/danielfishkin/gitprojects/CreativeMusicalCoding/class4/daxos/daxCHORD.wav");
 
 We get an error message.
 
@@ -60,16 +60,16 @@ Instead of manually typing the path, you can drag and drop a soundfile into the 
 //LOAD UP SOME SOUNNDS
 
 ~b0 = Buffer.read(s, "/Users/danielfishkin/gitprojects/CreativeMusicalCoding/class4/daxos/dax_harmonic_SHOUT.wav");
+~b1 = Buffer.read(s,"/Users/danielfishkin/gitprojects/MUSIC-CODE-INTERACTIVITY/highlights/Short&Sweet.wav" )
+
+~b1 = Buffer.read(s,"/Users/danielfishkin/gitprojects/MUSIC-CODE-INTERACTIVITY/new_highlights/MBe_Oatmeal.wav" );
+~b2 = Buffer.read(s, "");
+~b3 = Buffer.read(s, "/Users/danielfishkin/gitprojects/MUSIC-CODE-INTERACTIVITY/new_highlights/LS_I 6-KettleBoiling.wav");
+
 ~b0.play;
-
-~b1 = Buffer.read(s, "/Users/danielfishkin/gitprojects/CreativeMusicalCoding/highlights/Short&Sweet.wav");
-~b2 = Buffer.read(s, "/Users/danielfishkin/gitprojects/CreativeMusicalCoding/highlights/Mixing1.wav");
-~b3 = Buffer.read(s, "/Users/danielfishkin/gitprojects/CreativeMusicalCoding/highlights/SW WK2 crickets from tara's window.wav" );
-
 ~b1.play;
-~b2.play;
-~b3.free;
 ~b3.play;
+~b3.release;
 
 Ok, cool, so now that we've got a few sound files loaded, let's talk about some fundamental attributes of buffers. First, every buffer has a certain number of frames, and this number corresponds to the length of the buffer. If you want to know the number of frames in a buffer, we just use the numFrames method.
 
@@ -144,7 +144,7 @@ And I'll start by creating an empty Array, which will be used to hold our buffer
 
 and I'm also going to use an instance of a class called PathName that acts as a reference to the folder of daxo sounds.
 
-~folder = PathName.new("/Users/danielfishkin/gitprojects/CreativeMusicalCoding/class4/daxos/");
+~folder = PathName.new("/Users/danielfishkin/gitprojects/MUSIC-CODE-INTERACTIVITY/class4/daxos/");
 
 If you send the message "entries" to a PathName, it will return an Array of PathNames representing the soundfiles themselves.
 
