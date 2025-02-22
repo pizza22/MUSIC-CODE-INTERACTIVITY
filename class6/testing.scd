@@ -20,16 +20,13 @@
 	var frog1, frog2, out, sig, mix;
 	frog1= Mix.ar(SinOsc.ar(exprand(0.3,max) * [rrand(0.7,1.3),1], [2pi.rand,2pi.rand], 0.1)).max(0);
 	frog2= Mix.ar(SinOsc.ar(exprand(6,24) * [rrand(0.7,1.3),1], [2pi.rand,2pi.rand], 0.1)).abs;
-	sig = PlayBuf.ar(numChannels: b.numChannels,
-		bufnum: ,
-		rate: rrand(1,10)*pitch, ,
-		trigger: ,
-		startPos: ,
-		loop: ,
-		doneAction: ,
-	)
-
-
-		*frog1*frog2;
+	sig = PlayBuf.ar(numChannels: ~b.numChannels,
+		bufnum: ~b,
+		rate: rrand(1,10)/600*pitch*BufRateScale.kr(~b),
+		loop: 1,
+	)*frog1*frog2;
 	out = Pan2.ar(sig, 1.0.rand2);
+	out = out*10;
 };
+
+~peepers.gui
