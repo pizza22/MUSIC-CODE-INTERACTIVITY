@@ -1,3 +1,5 @@
+//added the countdown
+
 //first, run this, it sets up the directory inside whatever this file is saved inside.
 (
 ~dirpath = "piano and accordian/*".resolveRelative;
@@ -62,9 +64,6 @@
 // Create the looping task
 ~loopingTask = Task({
     inf.do { |cycle|
-        "=====================================================".postln;
-        "STARTING CYCLE % OF THE COMPOSITION".format(cycle + 1).postln;
-        "=====================================================".postln;
 
         // Play slow section
         ~slow.value;
@@ -72,9 +71,6 @@
         // Play fast section
         ~fast.value;
 
-        "=====================================================".postln;
-        "COMPLETED CYCLE % OF THE COMPOSITION".format(cycle + 1).postln;
-        "=====================================================".postln;
     };
 });
 

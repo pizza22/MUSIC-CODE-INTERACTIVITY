@@ -111,12 +111,12 @@ Here is a simple example:
 	}
 });
 
-Now we would like to create more density.
-Happily, NodeProxy has an 'add' method that lets us add in synthesis functions
-without replacing others.
+//Now we would like to create more density.
+//Happily, NodeProxy has an 'add' method that lets us add in synthesis functions
+//without replacing others.
 
-In this example the duration of the file is divided by 4, so there tend to be four or more sound files playing at the same time.
-Of course the decaying nature of the sound files is important to the sonic restulr
+//In this example the duration of the file is divided by 4, so there tend to be four or more sound files playing at the same time.
+//Of course the decaying nature of the sound files is important to the sonic restulr
 
 ~np[0] = Task({
 	var buf;
