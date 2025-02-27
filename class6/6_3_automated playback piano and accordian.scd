@@ -4,9 +4,9 @@
 ~filepaths = ~dirpath.pathMatch;
 ~buffers = ~filepaths.collect { |path|  Buffer.read(s, path) };
 
-Now, ~buffers is an array object that contains Buffer objects that represent soundfiles downloaded by the server.
-Arrays respond to the message 'choose' by returning one of their elements at random
-So, we can use that method to play a random sound file
+//Now, ~buffers is an array object that contains Buffer objects that represent soundfiles downloaded by the server.
+//Arrays respond to the message 'choose' by returning one of their elements at random
+//So, we can use that method to play a random sound file
 
 ~np = NodeProxy.audio(s, 2).play;
 ~np.play;
@@ -67,10 +67,10 @@ Here is a simple example:
 	"4 mississippi".postln; 1 .wait;
 })
 
+~np[0].play
 
 
-// Test the function
-~np[0].value(5).play;
+
 
 ~np[1] =  Task({ var buf, rate, amp;
 	 buf =  ~buffers.choose;
@@ -111,12 +111,12 @@ Here is a simple example:
 	}
 });
 
-Now we would like to create more density.
-Happily, NodeProxy has an 'add' method that lets us add in synthesis functions
-without replacing others.
+//Now we would like to create more density.
+//Happily, NodeProxy has an 'add' method that lets us add in synthesis functions
+//without replacing others.
 
-In this example the duration of the file is divided by 4, so there tend to be four or more sound files playing at the same time.
-Of course the decaying nature of the sound files is important to the sonic restulr
+//In this example the duration of the file is divided by 4, so there tend to be four or more sound files playing at the same time.
+//Of course the decaying nature of the sound files is important to the sonic restulr
 
 ~np[0] = Task({
 	var buf;
@@ -145,5 +145,4 @@ Of course the decaying nature of the sound files is important to the sonic restu
 	"done!".postln;
 });
 
-~np.play
 
