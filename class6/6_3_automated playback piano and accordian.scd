@@ -4,9 +4,9 @@
 ~filepaths = ~dirpath.pathMatch;
 ~buffers = ~filepaths.collect { |path|  Buffer.read(s, path) };
 
-Now, ~buffers is an array object that contains Buffer objects that represent soundfiles downloaded by the server.
-Arrays respond to the message 'choose' by returning one of their elements at random
-So, we can use that method to play a random sound file
+//Now, ~buffers is an array object that contains Buffer objects that represent soundfiles downloaded by the server.
+//Arrays respond to the message 'choose' by returning one of their elements at random
+//So, we can use that method to play a random sound file
 
 ~np = NodeProxy.audio(s, 2).play;
 ~np.play;
@@ -145,5 +145,4 @@ Of course the decaying nature of the sound files is important to the sonic restu
 	"done!".postln;
 });
 
-~np.play
 
