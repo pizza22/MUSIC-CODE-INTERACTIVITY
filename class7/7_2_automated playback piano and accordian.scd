@@ -1,25 +1,34 @@
+//evaluate the entire block, here:
 
 // Let's get some other sound files into buffers
-~dirpath = "MySounds/*".resolveRelative; //gotta have the slash after it!
+(
+//~dirpath = "MySounds/*".resolveRelative; //when you load up a folder, you gotta have the slash after it!
+~dirpath = "piano and accordian/*".resolveRelative; //this folder also sounds good for these examples.
 ~filepaths = ~dirpath.pathMatch;
 ~buffers = ~filepaths.collect { |path|  Buffer.read(s, path) };
+~buffers = ~filepaths.collect { |path|  Buffer.readChannel(s, path, channels: [0]);};
 
-/*
-~buffers = ~filepaths.collect { |path|
-  Buffer.readChannel(s, path, channels: [0]);
-};
-*/
-//some of you have stereo sound files. this is an easy hack to read only the first channel if you want to mix mono files w stereo for this lesson.
+// Make sure the server is booted first
+s.boot;
+
+// Wait until server is ready, then create and use the NodeProxy
+s.waitForBoot({
+  ~np = NodeProxy.audio(s, 2);
+  // Set some audio content before playing
+  ~np.source = { nil };
+  // Now play it
+  ~np.play;
+});
+)
 
 /*
 Now, ~buffers is an array object that contains Buffer objects that represent soundfiles downloaded by the server.
 Arrays respond to the message 'choose' by returning one of their elements at random
 So, we can use that method to play a random sound file
+take note of the last line.
+some of you have stereo sound files. this is an easy hack to read only the first channel if you want to mix mono files w stereo for this lesson.
+you can take it out if you need to, or you can modify the structure for stereo.
 */
-
-~np = NodeProxy.audio(s, 2).play;
-~np.clear;
-~np.play;
 
 
 
@@ -34,6 +43,7 @@ So, we can use that method to play a random sound file
 				);
 		};
 )
+
 
 //by the way, one style of coding is to declare each variable as you introduce them,
 //instead of all at once at the top. you need to decide which style makes sense.
@@ -58,13 +68,13 @@ So, we can use that method to play a random sound file
 };
 )
 ~np.gui
-
-
+~np[0..10]={nil}
+~np.removeLast
 
 (~np[0] = {
 	var buf = ~buffers.choose;
 	var rate = (0..12).choose.midiratio;// It randomly selects an integer between 0 and 12.It then converts this integer to a frequency ratio as if it were a MIDI note number difference.
-	var amp = 0.1;
+	var amp = 1.0;
 			Pan2.ar(
 				PlayBuf.ar(buf.numChannels,buf.bufnum, rate: rate,  doneAction: 2) * amp,
 				Rand(-1.0, 1.0)
@@ -72,9 +82,9 @@ So, we can use that method to play a random sound file
 		};
 )
 
-
+//lets talk about a few details. what if we want to use a particular note and focus on it?
 (~np[0] = {
-	var buf = ~buffers.at(5); //just pick a particular note so we can hear the changes.
+	var buf = ~buffers.at(2); //just pick a particular note so we can hear the changes.
 	var rate = (0..24).choose.midiratio; // you can change the width of the array to easily expand octaves
 	var amp = rrand(-40, 0).dbamp; //added a feature for random dynamics. very important—we don't want everyting to be at the same volume.
 			Pan2.ar(
@@ -91,7 +101,7 @@ So, we can use that method to play a random sound file
 	var dir = [-1, 1].choose;
 	var rate = dir * (0..24).choose.midiratio; // you can change the width of the array to easily expand octaves
 	var amp = rrand(-40, 0).dbamp; //added a feature for random dynamics. very important—we don't want everyting to be at the same volume.
-	var startPosi;
+	var startPosi; //added a feature for reverse playback
 	    if(dir < 0) {
         // If playing backward, start near the end of the buffer
         // This is better than exactly at the end (buf.numFrames - 1)
@@ -124,7 +134,8 @@ So, we can use that method to play a random sound file
 
 
 //just having fun! a sampler player connected to dust.tuned to slendro.
-//i don't want to use these retriggering nodeproxies for the rest of this assignment but i will file them away.
+//the main difference here is that since i am using synth side controls (ie, controlling the triggering through dust) i need to use synth side objects like TRand.ar and Texprand.
+//i don't want to use these retriggering nodeproxies for the rest of this assignment but i will this away for next time i'm improvising with the class
 (~np[0..10] =
 { | lofreq=1|
 	var trig, buf, tuningIndex, rate, rateMultiplier, amp, pan;
@@ -150,10 +161,9 @@ So, we can use that method to play a random sound file
 };
 )
 ~np.gui
+~np[0..10]={nil}
 
-
-
-
+//going back to the simple approach, single triggers evaluated each time np~[0] runs
 (~np[0] = {
     var buf = ~buffers.choose;
     var notesPerOctave = ~slendro.ratios.size;  // Number of notes in your scale (5)
@@ -217,7 +227,6 @@ Here is a simple example:
 		};
 	buf.duration.wait
 })
-
 // This is pretty inefficient.
 //all that code just to do two things!
 
@@ -238,17 +247,18 @@ Here is a simple example:
 });
 //now this sample player plays infinitely.
 
+~np[1]={nil}
+
 //let's just tweak it so we can control density.
 
-
-
+(
+~waitTime=0.1;
 ~np[1] =  Task({
 	var buf, rate, amp;
 	loop {
 		buf =  ~buffers.choose;
 		rate = (0..12).choose.midiratio;
 		amp = 0.1;
-		~waitTime=0.1;
 		~np[0] = {
 			Pan2.ar(
 				PlayBuf.ar(buf.numChannels,buf.bufnum, rate: rate,  doneAction: 2) * amp,
@@ -256,9 +266,11 @@ Here is a simple example:
 			)
 		};
 		~waitTime.wait
-// could also use a global variable like ~waitTime.wait
 	}
 });
+)
+//using global variable like ~waitTime.wait means you can change it dynamically.
+~waitTime=0.1;
 
 ~np[1]=nil
 

@@ -30,7 +30,7 @@ int main()
 	
 	while (1)
 	{
-		// Wait until counter hits zero
+		// Wait until counter hits zero // 
 		if (!--Counter)
 		{
 			// Reset counter

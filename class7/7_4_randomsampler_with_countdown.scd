@@ -1,12 +1,23 @@
-
+//you might need to evaluate this twice!
 //first, run this, it sets up the directory inside whatever this file is saved inside.
 (
-~dirpath = "MySounds/*".resolveRelative;
+//~dirpath = "MySounds/*".resolveRelative; //when you load up a folder, you gotta have the slash after it!
+~dirpath = "piano and accordian/*".resolveRelative; //this folder also sounds good for these examples.
 ~filepaths = ~dirpath.pathMatch;
-~buffers = ~filepaths.collect { |path| Buffer.read(s, path) };
-~np = NodeProxy.audio(s, 2).play;
-~np.clear;
+~buffers = ~filepaths.collect { |path|  Buffer.read(s, path) };
+~buffers = ~filepaths.collect { |path|  Buffer.readChannel(s, path, channels: [0]);};
 
+// Make sure the server is booted first
+s.boot;
+
+// Wait until server is ready, then create and use the NodeProxy
+s.waitForBoot({
+  ~np = NodeProxy.audio(s, 2);
+  // Set some audio content before playing
+  ~np.source = { nil };
+  // Now play it
+  ~np.play;
+});
 
 // Define the slow section
 ~slow = {
@@ -60,6 +71,8 @@
     "Speedy section complete.".postln;
 };
 
+
+
 // Create the looping task
 ~loopingTask = Task({
     inf.do { |cycle|
@@ -92,6 +105,11 @@
     };
 };
 
+~reset = {
+	~loopingTask.reset;
+ "U have reset the loop".postln;
+}
+
 // Show instructions
 "SIMPLE CONTROLS:".postln;
 "~start.value - Start the loop".postln;
@@ -99,3 +117,5 @@
 )
 
 ~start.value
+~stop.value
+~reset.value
