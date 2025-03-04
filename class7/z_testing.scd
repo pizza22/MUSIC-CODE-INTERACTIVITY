@@ -1,8 +1,7 @@
-//added the countdown
 
 //first, run this, it sets up the directory inside whatever this file is saved inside.
 (
-~dirpath = "piano and accordian/*".resolveRelative;
+~dirpath = "MySounds/*".resolveRelative;
 ~filepaths = ~dirpath.pathMatch;
 ~buffers = ~filepaths.collect { |path| Buffer.read(s, path) };
 ~np = NodeProxy.audio(s, 2).play;
@@ -98,3 +97,5 @@
 "~start.value - Start the loop".postln;
 "~stop.value - Stop the loop".postln;
 )
+
+~start.value
