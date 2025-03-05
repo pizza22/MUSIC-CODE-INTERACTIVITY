@@ -5,7 +5,7 @@
 ~filepaths = ~dirpath.pathMatch;
 //~buffers = ~filepaths.collect { |path|  Buffer.read(s, path) };
 ~buffers = ~filepaths.collect { |path|  Buffer.readChannel(s, path, channels: [0]);};
-
+~waitTime=1;
 s.options.maxSynthDefs = 2048;  // Default is 1024, doubling number of synthdefs so we can not overrun the server.
 
 // Make sure the server is booted first
@@ -80,6 +80,7 @@ s.waitForBoot({
 
 ~slendroglitchy={
         "Playing SLENDRO section...".postln;
+
 	~slendro = Tuning.new(Tuning.calcET(5));
         100.do { |i|
 		var buf = ~buffers.at(0);
@@ -97,7 +98,7 @@ s.waitForBoot({
                     Rand(-1.0, 1.0)
                 )
             });
-            rrand(0.1, 0.4).wait;
+            ~waitTime.wait;
         };
         "SLENDRO section complete.".postln;
     };
@@ -140,7 +141,5 @@ s.waitForBoot({
 //In SuperCollider, when you use .value on a variable that contains a function, you're saying "read whatever function is stored in this variable, and execute it now."
 ~start.value
 ~stop.value
-
-
-
+~waitTime=0.1
 

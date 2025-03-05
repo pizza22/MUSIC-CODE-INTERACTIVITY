@@ -44,6 +44,33 @@ you can take it out if you need to, or you can modify the structure for stereo.
 		};
 );
 
+
+//added a feature to pick between two different buffers
+(~np[0] = {
+    // Create an array with just buffers at index 0 and 2
+	var buf = [~buffers[0], ~buffers[1]].choose;
+    var rate = 1;
+    var sig;
+
+    Pan2.ar(
+        PlayBuf.ar(buf.numChannels, buf.bufnum, rate: rate, doneAction: 2),
+        Rand(-1.0, 1.0) // panning left to right randomly
+    );
+};
+)
+
+//
+(~np[0] = {
+    var buf = ~buffers[7..9].choose; //or randomly pick from one of the first three files in the array.
+    var rate = 1;
+
+    Pan2.ar(
+        PlayBuf.ar(buf.numChannels, buf.bufnum, rate: rate, doneAction: 2),
+        Rand(-1.0, 1.0) // panning left to right randomly
+    );
+};
+)
+
 //by the way, one style of coding is to declare each variable as you introduce them,
 //instead of all at once at the top. you need to decide which style makes sense.
 

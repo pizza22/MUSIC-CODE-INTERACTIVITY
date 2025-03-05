@@ -104,6 +104,7 @@ s.waitForBoot({
     inf.do { |cycle|
 
 		~glitchy.value;
+
         // Play slow section
         ~slow.value;
 
