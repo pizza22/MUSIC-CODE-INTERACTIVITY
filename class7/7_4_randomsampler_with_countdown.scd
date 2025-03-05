@@ -70,12 +70,12 @@ s.waitForBoot({
 
     "Speedy section complete.".postln;
 };
-
+/*
 ~glitchy= {
     var totalEvents = 100;
 	"Starting glitchy section (%/% events)...".format(totalEvents, totalEvents).postln;
 	totalEvents.do { |i|
-        var eventsLeft = totalEvents - i;
+		var eventsLeft = totalEvents - i;
             var buf = ~buffers.choose;
             var rate = [-2, -1, 1, 2, 4].choose; //negative rates play backward. may result in some frames dropped. see earlier example for hack to fix
             var start = rrand(0, 0.8);
@@ -94,7 +94,7 @@ s.waitForBoot({
     }
 ;
 
-
+*/
 
 // Create the looping task
 ~loopingTask = Task({
