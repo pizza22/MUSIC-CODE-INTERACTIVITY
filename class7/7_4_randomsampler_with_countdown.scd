@@ -70,7 +70,7 @@ s.waitForBoot({
 
     "Speedy section complete.".postln;
 };
-/*
+
 ~glitchy= {
     var totalEvents = 100;
 	"Starting glitchy section (%/% events)...".format(totalEvents, totalEvents).postln;
@@ -79,6 +79,9 @@ s.waitForBoot({
             var buf = ~buffers.choose;
             var rate = [-2, -1, 1, 2, 4].choose; //negative rates play backward. may result in some frames dropped. see earlier example for hack to fix
             var start = rrand(0, 0.8);
+		 // Post countdown for every event
+        "glitchy section: % events remaining".format(eventsLeft).postln;
+
             ~np.add({
                 Pan2.ar(
                     PlayBuf.ar(buf.numChannels, buf.bufnum,
@@ -94,12 +97,13 @@ s.waitForBoot({
     }
 ;
 
-*/
+
 
 // Create the looping task
 ~loopingTask = Task({
     inf.do { |cycle|
 
+		~glitchy.value;
         // Play slow section
         ~slow.value;
 
