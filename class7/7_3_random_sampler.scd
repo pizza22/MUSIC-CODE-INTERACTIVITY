@@ -5,8 +5,9 @@
 ~filepaths = ~dirpath.pathMatch;
 //~buffers = ~filepaths.collect { |path|  Buffer.read(s, path) };
 ~buffers = ~filepaths.collect { |path|  Buffer.readChannel(s, path, channels: [0]);};
-~waitTime=1;
-s.options.maxSynthDefs = 2048;  // Default is 1024, doubling number of synthdefs so we can not overrun the server.
+~waitTime=0.1;
+
+//s.options.maxSynthDefs = 2048;  // Default is 1024, doubling number of synthdefs so we can not overrun the server.
 
 // Make sure the server is booted first
 s.boot;
@@ -19,6 +20,25 @@ s.waitForBoot({
   // Now play it
   ~np.play;
 });
+
+
+
+
+~checkAndClearServer = {
+    // Check if we're getting close to the SynthDef limit
+    var defCount = s.numSynthDefs;
+    var maxDefs = s.options.maxSynthDefs;
+
+    if(defCount > (maxDefs * 0.9)) { // If we're at 90% capacity
+        "WARNING: SynthDef count high (%/%), clearing NodeProxy...".format(defCount, maxDefs).postln;
+       ~np[2..1024]=nil;
+        0.1.wait; // Give the server a moment to process the clearing
+        "NodeProxy cleared.".postln;
+        true
+    } {
+        false
+    };
+};
 
 
 
@@ -98,10 +118,28 @@ s.waitForBoot({
                     Rand(-1.0, 1.0)
                 )
             });
-            ~waitTime.wait;
+        rrand(0.1, 0.4)*~waitTime.wait;
         };
         "SLENDRO section complete.".postln;
     };
+
+
+// Sparse section with lower pitches
+~sparse = {
+    "Playing sparse section...".postln;
+    30.do { |i|
+        var buf = ~buffers.choose;
+        ~np.add({
+            Pan2.ar(
+                PlayBuf.ar(buf.numChannels, buf.bufnum,
+                    rate: [0.5, 0.25, 0.125].choose,
+                    doneAction: 2) * rrand(-30, -10).dbamp,
+                Rand(-1.0, 1.0)
+            )
+        });
+        rrand(1.0, 2.5).wait;
+    };
+};
 
 
 // Create the looping task
@@ -109,25 +147,26 @@ s.waitForBoot({
     inf.do { |cycle|
         "Starting cycle %...".format(cycle + 1).postln;
 
-		   // Play slow section
+		   // Play slendroGLITCHY section
+//		~sparse.value;
+
+		 // Play slendroGLITCHY section
 		~slendroglitchy.value;
-		~np.source = nil ;
+        ~checkAndClearServer.value;
 
         // Play slow section
 //		~slow.value;
-	//	~np.source = nil;
 
 		// Play glitchy section
-        ~glitchy.value;
-		//~np.source = nil;
+ //       ~glitchy.value;
 
         // Play fast section
-//        ~fast.value;
-		~np.source = nil;
+  //      ~fast.value;
 
         "Completed cycle %".format(cycle + 1).postln;
     };
 });
+
 
 // Simple controls
 ~start = { ~loopingTask.play; "Starting the loop...".postln; };
@@ -141,5 +180,5 @@ s.waitForBoot({
 //In SuperCollider, when you use .value on a variable that contains a function, you're saying "read whatever function is stored in this variable, and execute it now."
 ~start.value
 ~stop.value
-~waitTime=0.1
+~waitTime=0.01
 
