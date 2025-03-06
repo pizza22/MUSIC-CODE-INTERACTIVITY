@@ -22,8 +22,6 @@ s.waitForBoot({
 });
 
 
-
-
 ~checkAndClearServer = {
     // Check if we're getting close to the SynthDef limit
     var defCount = s.numSynthDefs;
@@ -181,4 +179,5 @@ s.waitForBoot({
 ~start.value
 ~stop.value
 ~waitTime=0.01
+~np.source=nil  //run this in case your server overflows
 
