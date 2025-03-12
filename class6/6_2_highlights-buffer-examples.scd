@@ -100,7 +100,7 @@ AudioIn.ar
 ~peepers[0..8]= {
 	arg max=8, pitch=200;
 	var frog1, frog2, out, sig, mix, samp;
-	samp=b;
+	samp=~b;
 	frog1= Mix.ar(SinOsc.ar(exprand(0.3,max) * [rrand(0.7,1.3),1], [2pi.rand,2pi.rand], 0.1)).max(0);
 	frog2= Mix.ar(SinOsc.ar(exprand(6,24) * [rrand(0.7,1.3),1], [2pi.rand,2pi.rand], 0.1)).abs;
 	sig = PlayBuf.ar(numChannels: samp.numChannels,
