@@ -1,7 +1,7 @@
 //first, run this, it sets up the directory inside whatever this file is saved inside.
 (
-//~dirpath = "MySounds/*".resolveRelative; //when you load up a folder, you gotta have the slash after it!
-~dirpath = "piano and accordian/*".resolveRelative; //this folder also sounds good for these examples.
+~dirpath = "MySounds/*".resolveRelative; //when you load up a folder, you gotta have the slash after it!//..
+//~dirpath = "piano and accordian/*".resolveRelative; //this folder also sounds good for these examples.
 ~filepaths = ~dirpath.pathMatch;
 //~buffers = ~filepaths.collect { |path|  Buffer.read(s, path) };
 ~buffers = ~filepaths.collect { |path|  Buffer.readChannel(s, path, channels: [0]);};
@@ -146,20 +146,19 @@ s.waitForBoot({
         "Starting cycle %...".format(cycle + 1).postln;
 
 		   // Play slendroGLITCHY section
-//		~sparse.value;
-
-		 // Play slendroGLITCHY section
-		~slendroglitchy.value;
+		~sparse.value;
         ~checkAndClearServer.value;
 
-        // Play slow section
 //		~slow.value;
+        ~checkAndClearServer.value;
 
 		// Play glitchy section
  //       ~glitchy.value;
+        ~checkAndClearServer.value;
 
         // Play fast section
-  //      ~fast.value;
+//        ~fast.value;
+        ~checkAndClearServer.value;
 
         "Completed cycle %".format(cycle + 1).postln;
     };
@@ -176,6 +175,7 @@ s.waitForBoot({
 "~stop.value - Stop the loop".postln;
 
 //In SuperCollider, when you use .value on a variable that contains a function, you're saying "read whatever function is stored in this variable, and execute it now."
+
 ~start.value
 ~stop.value
 ~waitTime=0.01

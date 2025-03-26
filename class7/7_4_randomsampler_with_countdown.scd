@@ -1,8 +1,8 @@
 //you might need to evaluate this twice! timming operations delay this a few times from finding all the buffers if the server isn't booted.'
 //first, run this, it sets up the directory inside whatever this file is saved inside.
 (
-//~dirpath = "MySounds/*".resolveRelative; //when you load up a folder, you gotta have the slash after it!
-~dirpath = "piano and accordian/*".resolveRelative; //this folder also sounds good for these examples.
+~dirpath = "MySounds/*".resolveRelative; //when you load up a folder, you gotta have the slash after it!
+//~dirpath = "piano and accordian/*".resolveRelative; //this folder also sounds good for these examples.
 ~filepaths = ~dirpath.pathMatch;
 //~buffers = ~filepaths.collect { |path|  Buffer.read(s, path) };
 ~buffers = ~filepaths.collect { |path|  Buffer.readChannel(s, path, channels: [0]);};
@@ -10,6 +10,8 @@
 // Make sure the server is booted first
 //s.options.maxSynthDefs = 2048;  // Default is often 1024
 s.boot;
+
+
 
 // Wait until server is ready, then create and use the NodeProxy
 s.waitForBoot({
