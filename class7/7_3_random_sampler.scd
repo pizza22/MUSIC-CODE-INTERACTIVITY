@@ -182,6 +182,6 @@ s.waitForBoot({
 
 ~start.value
 ~stop.value
-~waitTime=0.01
+~waitTime=0.2
 ~np.source=nil  //run this in case your server overflows
 
