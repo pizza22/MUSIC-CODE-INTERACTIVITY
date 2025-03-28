@@ -3,7 +3,7 @@
 ~dirpath = "MySounds/*".resolveRelative; //when you load up a folder, you gotta have the slash after it!//..
 //~dirpath = "piano and accordian/*".resolveRelative; //this folder also sounds good for these examples.
 ~filepaths = ~dirpath.pathMatch;
-//~buffers = ~filepaths.collect { |path|  Buffer.read(s, path) };
+~buffers = ~filepaths.collect { |path|  Buffer.read(s, path) };
 ~buffers = ~filepaths.collect { |path|  Buffer.readChannel(s, path, channels: [0]);};
 ~waitTime=0.1;
 
@@ -101,7 +101,7 @@ s.waitForBoot({
 
 	~slendro = Tuning.new(Tuning.calcET(5));
         100.do { |i|
-		var buf = ~buffers.at(0);
+		var buf = ~buffers.at(4);
             var start = rrand(0, 0.8);
 			var tuningIndex = (0..~slendro.ratios.size-1).choose;  // Choose a random index from the 5-ET tuning
 			var rate = ~slendro.ratios[tuningIndex];  // Use the ratio from your 5-ET tuning
@@ -145,8 +145,12 @@ s.waitForBoot({
     inf.do { |cycle|
         "Starting cycle %...".format(cycle + 1).postln;
 
-		   // Play slendroGLITCHY section
-		~sparse.value;
+	// Play slendroGLITCHY section
+		~slendroglitchy.value;
+        ~checkAndClearServer.value;
+
+			// Play sparse section
+	//	~sparse.value;
         ~checkAndClearServer.value;
 
 //		~slow.value;
