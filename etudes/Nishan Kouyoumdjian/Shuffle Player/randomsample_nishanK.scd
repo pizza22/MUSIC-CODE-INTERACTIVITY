@@ -18,7 +18,7 @@ s.waitForBoot({
 
     if(defCount > (maxDefs * 0.9)) {
         "WARNING: SynthDef count high (%/%), clearing NodeProxy...".format(defCount, maxDefs).postln;
-		~np[2..1024]=nil;
+		~np[2..2048]=nil;
         0.1.wait;
         "NodeProxy cleared.".postln;
         true
@@ -48,7 +48,7 @@ s.waitForBoot({
                 Rand(-1.0, 1.0)
             )
         });
-        (buf.duration/2.5).wait;
+        (buf.duration/1.7).wait;
     };
 
     "Slow section complete.".postln;
@@ -143,14 +143,16 @@ s.waitForBoot({
 ~loopingTask = Task({
     inf.do { |cycle|
 
-		~glitchy.value;
+		~slow.value;
+		~checkAndClearServer.value;
 
-        ~slow.value;
+        ~glitchy.value;
+		~checkAndClearServer.value;
 
-        ~fast.value;
+        //~fast.value;
+		~checkAndClearServer.value;
 
-		~solo.value;
-
+		//~solo.value;
 		~checkAndClearServer.value;
     };
 });
@@ -176,7 +178,7 @@ s.waitForBoot({
 
 ~reset = {
 	~loopingTask.reset;
- "U have reset the loop".postln;
+ "Reset the loop".postln;
 };
 
 
