@@ -22,7 +22,7 @@ int main()
 	DDRB = 255;
 	
 	// "unsigned short" has 2^16 possible values, 0 to 65535
-	unsigned short Period = 1000;
+	unsigned short Period = 30000;
 	
 	while (1)
 	{

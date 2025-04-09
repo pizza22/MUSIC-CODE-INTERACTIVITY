@@ -22,8 +22,11 @@ int main()
 	DDRB = 255;
 	
 	// "unsigned short" has 2^16 possible values, 0 to 65535
-	unsigned short Period = 1000;
-	unsigned short Counter = 5;
+	unsigned long Period = 1000;
+	unsigned short Counter = 30;
+	unsigned short Sieve = 500;
+	unsigned short CounterEnd = 20;
+	unsigned short OffTime = 2000;
 	
 	// "unsigned char" has 2^8 possible values, 0 to 255
 	unsigned char On = 1;
@@ -34,19 +37,20 @@ int main()
 		if (!--Counter)
 		{
 			// Reset counter
-			Counter = 2;
+			Counter = CounterEnd;
 			
 			// Lengthen the period
-			Period = Period + 500;
-			
+			Period = Period + Sieve;
+		    
+
 			// After a while, turn off the output
-			if (Period > 10000)
+			if (Period > OffTime)
 			{
 				On = 0;
 			}
 			
 			// After a longer while, reset the period and turn on the output
-			if (Period > 13000)
+			if (Period > OffTime)
 			{
 				Period = 0;
 				On = 1;
